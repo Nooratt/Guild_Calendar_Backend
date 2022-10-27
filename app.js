@@ -28,10 +28,10 @@ app.get("/ping", (req, res) => {
   res.json({'ping': 'ping'})
 });
 
-app.post("/events", (req, res) => {
-  var chosenStartOfTimeFrame = req.body.startDateTimeFrame;
-  var chosenEndOfTimeFrame = req.body.endDateTimeFrame;
-  var guildNames = req.body.guildNames;
+app.get("/events", (req, res) => {
+  var chosenStartOfTimeFrame = req.query.startDateTimeFrame;
+  var chosenEndOfTimeFrame = req.query.endDateTimeFrame;
+  var guildNames = req.query.guildNames;
   getAllEvents(chosenStartOfTimeFrame, chosenEndOfTimeFrame, guildNames).then(resp => {
     
     var prodeko = [];
