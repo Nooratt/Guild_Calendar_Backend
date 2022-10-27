@@ -3,16 +3,30 @@ const dotenv = require('dotenv');
 const express = require("express");
 var bodyParser = require('body-parser');
 const qs = require("qs");
+var cors = require('cors')
 
 const Event = require('./Event.js');
 const guild_ids = require('./guildIds.json');
-
+const corsOptions = {
+  origin: '*',
+  methods: ['POST', 'GET', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}
 dotenv.config();
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+app.use(cors(corsOptions));
+
+app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
+
+app.get("/ping", (req, res) => {
+  res.json({'ping': 'ping'})
+});
 
 app.post("/events", (req, res) => {
   var chosenStartOfTimeFrame = req.body.startDateTimeFrame;
@@ -45,10 +59,6 @@ app.post("/events", (req, res) => {
    
     res.json({ response: filtered});
   });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
 });
 
 const calendar = [
